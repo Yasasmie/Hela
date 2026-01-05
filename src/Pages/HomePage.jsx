@@ -82,36 +82,21 @@ const HomePage = () => {
   const influencers = [
     {
       id: 1,
-      name: "Sandun Perera",
-      category: "Tech & Gaming",
-      followers: "250K+",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
-      platform: "Youtube"
+      name: "Yasas Basuru",
+      category: "Owner",
+      followers: "5K+",
+      image: "/yasas.jpeg",
+      platform: "TikTok"
     },
     {
       id: 2,
-      name: "Dilini Silva",
-      category: "Lifestyle & Fashion",
-      followers: "180K+",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-      platform: "Instagram"
+      name: "Iththawa",
+      category: "Blogger",
+      followers: "11K+",
+      image: "/iththawa.jpeg",
+      platform: "YouTube"
     },
-    {
-      id: 3,
-      name: "Pathum Rathnayake",
-      category: "Travel & Vlogs",
-      followers: "420K+",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
-      platform: "Youtube"
-    },
-    {
-      id: 4,
-      name: "Kavindi Fonseka",
-      category: "Food & Cooking",
-      followers: "95K+",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop",
-      platform: "Instagram"
-    }
+    
   ];
 
   useEffect(() => {
