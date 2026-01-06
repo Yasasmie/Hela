@@ -30,14 +30,14 @@ const Navbar = () => {
               </div>
               
               {/* Text Logo */}
-              <div className="flex items-baseline">
+              {/*<div className="flex items-baseline">
                 <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
                   හෙළ
                 </span>
-                <span className="text-lg md:text-xl text-amber-500 ml-2 italic font-bold tracking-tight">
+                <span className="text-lg md:text-xl text-white ml-2  font-bold tracking-tight">
                   Advertising
                 </span>
-              </div>
+              </div>*/}
             </div>
           </Link>
 

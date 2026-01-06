@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from '../componennts/NavBar'; // Fixed spelling from 'componennts'
-import Footer from '../componennts/Footer'; // Fixed spelling from 'componennts'
+import Navbar from '../componennts/NavBar'; 
+import Footer from '../componennts/Footer'; 
 import { 
   Search, MapPin, TrendingUp, ShieldCheck, Zap, 
   Star, CheckCircle2, Rocket, Crown, Instagram, 
-  Youtube, Users, ExternalLink 
+  Youtube, Users, ExternalLink, Loader2 
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -14,61 +14,22 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
-// --- Sub-Components ---
-
-/*const Snowfall = () => {
-  const snowflakes = Array.from({ length: 50 });
-  return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
-      <style>{`
-        @keyframes fall {
-          0% { transform: translateY(-10vh) translateX(0); opacity: 1; }
-          100% { transform: translateY(100vh) translateX(20px); opacity: 0.3; }
-        }
-        .snowflake {
-          position: absolute;
-          top: -10%;
-          color: white;
-          user-select: none;
-          font-size: 1.2rem;
-          filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
-          animation: fall linear infinite;
-        }
-      `}</style>
-      {snowflakes.map((_, i) => (
-        <div
-          key={i}
-          className="snowflake"
-          style={{
-            left: `${Math.random() * 100}%`,
-            animationDuration: `${Math.random() * 10 + 5}s`,
-            animationDelay: `${Math.random() * 5}s`,
-            opacity: Math.random(),
-            fontSize: `${Math.random() * 10 + 10}px`
-          }}
-        >
-          {Math.random() > 0.5 ? '❄' : '•'}
-        </div>
-      ))}
-    </div>
-  );
-};*/
+// Replace 'localhost' with your PC's IP address (e.g., 192.168.1.10) to work on mobile
+const API_BASE_URL = 'http://localhost:5000/api/packages';
 
 const iconForName = (name) => {
-  switch (name) {
-    case 'Basic': return <Zap size={24} />;
-    case 'Standard': return <Rocket size={24} />;
-    case 'Premium': return <Star size={24} />;
-    case 'Ultimate': return <Crown size={24} />;
-    default: return <Zap size={24} />;
-  }
+  const n = name.toLowerCase();
+  if (n.includes('basic')) return <Zap size={24} />;
+  if (n.includes('standard')) return <Rocket size={24} />;
+  if (n.includes('premium')) return <Star size={24} />;
+  if (n.includes('ultimate') || n.includes('crown')) return <Crown size={24} />;
+  return <Zap size={24} />;
 };
-
-// --- Main Page Component ---
 
 const HomePage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = [
     { name: 'Vehicles', icon: '🚗', count: '1,200+' },
@@ -80,38 +41,20 @@ const HomePage = () => {
   ];
 
   const influencers = [
-    {
-      id: 1,
-      name: "Yasas Basuru",
-      category: "Owner",
-      followers: "5K+",
-      image: "/yasas.jpeg",
-      platform: "TikTok"
-    },
-    {
-      id: 2,
-      name: "Iththawa",
-      category: "Blogger",
-      followers: "11K+",
-      image: "/iththawa.jpeg",
-      platform: "YouTube"
-    },
-    
+    { id: 1, name: "Yasas Basuru", category: "Owner", followers: "5K+", image: "/yasas.jpeg", platform: "TikTok" },
+    { id: 2, name: "Iththawa", category: "Blogger", followers: "11K+", image: "/iththawa.jpeg", platform: "YouTube" },
   ];
 
   useEffect(() => {
     const fetchPackages = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/packages');
+        const res = await axios.get(API_BASE_URL);
         setPackages(res.data);
       } catch (err) {
-        console.error('Error fetching packages', err);
-        // Fallback dummy data if backend is offline
-        setPackages([
-          { id: 1, name: 'Basic', price: '2,500', features: ['5 Ads per month', 'Basic SEO', '24h Approval'] },
-          { id: 2, name: 'Standard', price: '5,000', features: ['15 Ads per month', 'Featured Badge', 'Social Media Share'] },
-          { id: 3, name: 'Premium', price: '10,000', features: ['Unlimited Ads', 'Priority Support', 'Video Ad Placement'] }
-        ]);
+        console.error('Error fetching packages:', err);
+        setPackages([]); // Ensure it's empty if request fails
+      } finally {
+        setLoading(false);
       }
     };
     fetchPackages();
@@ -126,7 +69,6 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 font-sans selection:bg-amber-500/30 relative">
-      
       <Navbar />
 
       {/* Hero Section */}
@@ -136,10 +78,10 @@ const HomePage = () => {
         </div>
         
         <h1 className="text-5xl md:text-7xl font-extrabold mb-6 text-white leading-tight">
-         <span className="bg-white bg-clip-text text-transparent inline-flex items-baseline justify-center gap-x-4 py-4 leading-normal">
-  <span className="text-8xl md:text-[9rem] font-sinhala">හෙළ</span> 
-  <span className="text-4xl md:text-5xl  tracking-tighter">Advertising</span>
-</span><br/>
+          <span className="bg-white bg-clip-text text-transparent inline-flex items-baseline justify-center gap-x-4 py-4 leading-normal">
+            <span className="text-8xl md:text-[9rem] font-sinhala">හෙළ</span> 
+            <span className="text-4xl md:text-5xl tracking-tighter">Advertising</span>
+          </span><br/>
           <span className="text-xl md:text-2xl font-bold text-gray-400 tracking-widest uppercase mt-4 block">
             Sri Lanka's Ultimate Marketplace
           </span>
@@ -174,8 +116,6 @@ const HomePage = () => {
         </div>
       </section>
 
-
-
       {/* DIGITAL MARKETING PACKAGES */}
       <section className="py-24 px-4 relative">
         <div className="max-w-7xl mx-auto text-center mb-16">
@@ -186,89 +126,98 @@ const HomePage = () => {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          <Swiper
-            effect={'coverflow'}
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView={'auto'}
-            onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-            coverflowEffect={{
-              rotate: 30,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: false,
-            }}
-            autoplay={{ delay: 3500, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            modules={[EffectCoverflow, Pagination, Autoplay]}
-            className="pb-20"
-          >
-            {packages.map((pkg, index) => {
-              const isActive = activeIndex === index;
-              return (
-                <SwiperSlide key={pkg.id} className="max-w-[360px] py-10">
-                  <div
-                    className={`relative rounded-[2.5rem] p-8 h-full transition-all duration-700 border-2 overflow-hidden
-                    ${
-                      isActive
-                        ? 'bg-slate-800 border-amber-500 shadow-[0_0_40px_rgba(245,158,11,0.2)] scale-105 z-20'
-                        : 'bg-slate-900 border-slate-800 scale-90 opacity-60 z-10'
-                    }`}
-                  >
-                    {isActive && (
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 blur-[50px] rounded-full"></div>
-                    )}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="animate-spin text-amber-500 mb-4" size={40} />
+              <p className="text-slate-500">Loading custom packages...</p>
+            </div>
+          ) : packages.length > 0 ? (
+            <Swiper
+              effect={'coverflow'}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
+              coverflowEffect={{
+                rotate: 30,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: false,
+              }}
+              autoplay={{ delay: 3500, disableOnInteraction: false }}
+              pagination={{ clickable: true }}
+              modules={[EffectCoverflow, Pagination, Autoplay]}
+              className="pb-20"
+            >
+              {packages.map((pkg, index) => {
+                const isActive = activeIndex === index;
+                return (
+                  <SwiperSlide key={pkg.id || index} className="max-w-[360px] py-10">
+                    <div
+                      className={`relative rounded-[2.5rem] p-8 h-full transition-all duration-700 border-2 overflow-hidden
+                      ${isActive
+                          ? 'bg-slate-800 border-amber-500 shadow-[0_0_40px_rgba(245,158,11,0.2)] scale-105 z-20'
+                          : 'bg-slate-900 border-slate-800 scale-90 opacity-60 z-10'
+                      }`}
+                    >
+                      {isActive && (
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 blur-[50px] rounded-full"></div>
+                      )}
 
-                    <div className="relative z-10">
-                      <div
-                        className={`mb-6 p-4 w-fit rounded-2xl transition-colors duration-500 
-                        ${isActive ? 'bg-amber-500 text-black' : 'bg-slate-800 text-amber-500'}`}
-                      >
-                        {iconForName(pkg.name)}
+                      <div className="relative z-10">
+                        <div
+                          className={`mb-6 p-4 w-fit rounded-2xl transition-colors duration-500 
+                          ${isActive ? 'bg-amber-500 text-black' : 'bg-slate-800 text-amber-500'}`}
+                        >
+                          {iconForName(pkg.name)}
+                        </div>
+
+                        <h3 className={`text-2xl font-bold mb-2 transition-colors ${isActive ? 'text-white' : 'text-slate-400'}`}>
+                          {pkg.name}
+                        </h3>
+
+                        <div className="flex items-baseline gap-1 mb-8">
+                          <span className={`text-4xl font-black transition-colors ${isActive ? 'text-amber-500' : 'text-slate-300'}`}>
+                            Rs.{pkg.price}
+                          </span>
+                          <span className="text-slate-500 text-sm">/month</span>
+                        </div>
+
+                        <ul className="space-y-4 text-left mb-10">
+                          {pkg.features.map((feature, fIdx) => (
+                            <li key={fIdx} className="flex items-center gap-3 text-sm">
+                              <CheckCircle2 size={18} className={isActive ? 'text-amber-500' : 'text-slate-600'} />
+                              <span className={isActive ? 'text-slate-200' : 'text-slate-500'}>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        <button
+                          onClick={() => handleWhatsApp(pkg)}
+                          className={`w-full py-4 rounded-2xl font-bold transition-all active:scale-95
+                          ${isActive
+                              ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 hover:bg-amber-400'
+                              : 'bg-slate-800 text-slate-400'
+                          }`}
+                        >
+                          Get Started
+                        </button>
                       </div>
-
-                      <h3 className={`text-2xl font-bold mb-2 transition-colors ${isActive ? 'text-white' : 'text-slate-400'}`}>
-                        {pkg.name}
-                      </h3>
-
-                      <div className="flex items-baseline gap-1 mb-8">
-                        <span className={`text-4xl font-black transition-colors ${isActive ? 'text-amber-500' : 'text-slate-300'}`}>
-                          Rs.{pkg.price}
-                        </span>
-                        <span className="text-slate-500 text-sm">/month</span>
-                      </div>
-
-                      <ul className="space-y-4 text-left mb-10">
-                        {pkg.features.map((feature, fIdx) => (
-                          <li key={fIdx} className="flex items-center gap-3 text-sm">
-                            <CheckCircle2 size={18} className={isActive ? 'text-amber-500' : 'text-slate-600'} />
-                            <span className={isActive ? 'text-slate-200' : 'text-slate-500'}>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-
-                      <button
-                        onClick={() => handleWhatsApp(pkg)}
-                        className={`w-full py-4 rounded-2xl font-bold transition-all active:scale-95
-                        ${
-                          isActive
-                            ? 'bg-amber-500 text-black shadow-lg shadow-amber-500/20 hover:bg-amber-400'
-                            : 'bg-slate-800 text-slate-400'
-                        }`}
-                      >
-                        Get Started
-                      </button>
                     </div>
-                  </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          ) : (
+            <div className="text-center py-20 bg-slate-900/20 rounded-3xl border border-dashed border-slate-800">
+              <p className="text-slate-500">No active marketing packages available.</p>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* NEW SECTION: Influencer Network */}
+      {/* Influencer Network */}
       <section className="py-24 px-4 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
@@ -278,9 +227,6 @@ const HomePage = () => {
                 Collaborate with Sri Lanka's top content creators to give your brand the massive exposure it deserves.
               </p>
             </div>
-            <button className="flex items-center gap-2 text-amber-500 font-semibold hover:underline">
-              View All Creators <ExternalLink size={18} />
-            </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -306,7 +252,7 @@ const HomePage = () => {
                         <Users size={14} className="text-amber-500" />
                         <span className="text-sm font-medium">{person.followers} Reach</span>
                       </div>
-                      {person.platform === 'Youtube' ? (
+                      {person.platform === 'YouTube' ? (
                         <Youtube size={20} className="text-red-500" />
                       ) : (
                         <Instagram size={20} className="text-pink-500" />
@@ -319,8 +265,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-
 
       {/* Stats Section */}
       <section className="border-y border-slate-800 bg-slate-900/20 py-24 px-4 mb-20">
