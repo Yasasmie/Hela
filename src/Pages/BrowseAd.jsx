@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../componennts/NavBar';
 import Footer from '../componennts/Footer';
-import { Filter, ArrowRight, Tag, MapPin, Clock } from 'lucide-react';
+import { Tag, MapPin, Clock, ImageIcon } from 'lucide-react';
 
 const categories = [
   { name: 'Vehicles', icon: '🚗', id: 'vehicles' },
@@ -38,7 +38,6 @@ const BrowseAds = () => {
       <Navbar />
       <main className="pt-28 pb-20 px-4 max-w-7xl mx-auto">
         
-        {/* Sticky Filter */}
         <div className="sticky top-20 z-40 bg-[#020617]/90 backdrop-blur-md py-4 border-b border-slate-800 mb-12 flex flex-wrap gap-2 justify-center">
           {categories.map(cat => (
             <button key={cat.id} onClick={() => { setSearchParams({ category: cat.id }); scrollToSection(cat.id); }}
@@ -48,7 +47,6 @@ const BrowseAds = () => {
           ))}
         </div>
 
-        {/* Categories Sections */}
         <div className="space-y-20">
           {categories.map(cat => (
             <section key={cat.id} ref={el => sectionRefs.current[cat.id] = el} className="scroll-mt-32">
@@ -60,10 +58,19 @@ const BrowseAds = () => {
                 {ads.filter(ad => ad.category === cat.id).length > 0 ? (
                   ads.filter(ad => ad.category === cat.id).map(ad => (
                     <div key={ad.id} className="bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden hover:border-amber-500/30 transition-all group">
-                      <div className="aspect-video bg-slate-800 flex items-center justify-center text-slate-600 text-xs">No Image</div>
+                      <div className="aspect-video bg-slate-800 overflow-hidden flex items-center justify-center">
+                        {ad.image ? (
+                          <img src={ad.image} alt={ad.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        ) : (
+                          <div className="text-slate-600 flex flex-col items-center gap-2">
+                            <ImageIcon size={24}/>
+                            <span className="text-[10px] uppercase font-bold tracking-widest">No Image</span>
+                          </div>
+                        )}
+                      </div>
                       <div className="p-5">
                         <div className="text-amber-500 font-bold text-lg flex items-center gap-1"><Tag size={16}/> Rs. {ad.price}</div>
-                        <h4 className="text-white font-medium my-2 group-hover:text-amber-500 transition-colors">{ad.title}</h4>
+                        <h4 className="text-white font-medium my-2 group-hover:text-amber-500 transition-colors line-clamp-1">{ad.title}</h4>
                         <div className="flex justify-between text-slate-500 text-[10px] mt-4">
                           <span className="flex items-center gap-1"><MapPin size={10}/> {ad.location}</span>
                           <span className="flex items-center gap-1"><Clock size={10}/> {ad.date}</span>

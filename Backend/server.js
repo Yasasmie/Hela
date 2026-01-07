@@ -6,7 +6,10 @@ const app = express();
 const PORT = 5000;
 
 app.use(cors());
-app.use(bodyParser.json());
+
+// CRITICAL: Increase limits to handle Base64 image strings
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
 // ----- In-Memory Database -----
 let packages = [
@@ -15,8 +18,7 @@ let packages = [
 ];
 
 let ads = [
-  { id: 1, category: 'vehicles', title: 'Toyota Aqua 2014', price: '8,500,000', location: 'Colombo', date: '2024-05-20' },
-  { id: 2, category: 'electronics', title: 'iPhone 15 Pro', price: '320,000', location: 'Kandy', date: '2024-05-21' }
+  { id: 1, category: 'vehicles', title: 'Toyota Aqua 2014', price: '8,500,000', location: 'Colombo', date: '2024-05-20', image: null }
 ];
 
 // ----- Admin Auth -----
@@ -54,9 +56,17 @@ app.delete('/api/packages/:id', (req, res) => {
 app.get('/api/ads', (req, res) => res.json(ads));
 
 app.post('/api/ads', (req, res) => {
-  const newAd = { id: Date.now(), ...req.body, date: new Date().toISOString().split('T')[0] };
-  ads.push(newAd);
-  res.status(201).json(newAd);
+  try {
+    const newAd = { 
+      id: Date.now(), 
+      ...req.body, 
+      date: new Date().toISOString().split('T')[0] 
+    };
+    ads.push(newAd);
+    res.status(201).json(newAd);
+  } catch (error) {
+    res.status(500).json({ message: "Server error saving ad" });
+  }
 });
 
 app.put('/api/ads/:id', (req, res) => {
@@ -74,4 +84,4 @@ app.delete('/api/ads/:id', (req, res) => {
   res.json({ success: true });
 });
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
