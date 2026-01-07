@@ -6,6 +6,7 @@ import PostAdPage from './Pages/PostAdPage';
 import AdminLogin from './Pages/AdminLogin';
 import AdminPanel from './Pages/AdminPanel';
 import Contact from './Pages/Contact';
+import BrowseAds from './Pages/BrowseAd';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/panel" element={<AdminPanel />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/browse" element={<BrowseAds />} />
         </Routes>
       </main>
     </Router>

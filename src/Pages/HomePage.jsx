@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../componennts/NavBar'; 
 import Footer from '../componennts/Footer'; 
 import { 
@@ -14,7 +15,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
-// Replace 'localhost' with your PC's IP address (e.g., 192.168.1.10) to work on mobile
 const API_BASE_URL = 'http://localhost:5000/api/packages';
 
 const iconForName = (name) => {
@@ -27,17 +27,18 @@ const iconForName = (name) => {
 };
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const categories = [
-    { name: 'Vehicles', icon: '🚗', count: '1,200+' },
-    { name: 'Property', icon: '🏠', count: '850+' },
-    { name: 'Electronics', icon: '💻', count: '2,400+' },
-    { name: 'Services', icon: '🛠️', count: '500+' },
-    { name: 'Animals', icon: '🐾', count: '300+' },
-    { name: 'Education', icon: '📚', count: '150+' },
+    { name: 'Vehicles', icon: '🚗', id: 'vehicles' },
+    { name: 'Property', icon: '🏠', id: 'property' },
+    { name: 'Electronics', icon: '💻', id: 'electronics' },
+    { name: 'Services', icon: '🛠️', id: 'services' },
+    { name: 'Animals', icon: '🐾', id: 'animals' },
+    { name: 'Education', icon: '📚', id: 'education' },
   ];
 
   const influencers = [
@@ -52,7 +53,7 @@ const HomePage = () => {
         setPackages(res.data);
       } catch (err) {
         console.error('Error fetching packages:', err);
-        setPackages([]); // Ensure it's empty if request fails
+        setPackages([]); 
       } finally {
         setLoading(false);
       }
@@ -90,16 +91,6 @@ const HomePage = () => {
         <p className="text-slate-400 max-w-2xl mx-auto mb-12 text-lg leading-relaxed">
           Unlock your brand's potential with the most reliable digital marketing and advertising hub in the island.
         </p>
-
-        <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800 p-2 rounded-2xl shadow-2xl max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-2">
-          <div className="flex items-center w-full px-4 py-3">
-            <Search className="text-slate-500 mr-3" size={20} />
-            <input type="text" placeholder="What are you looking for?" className="w-full bg-transparent focus:outline-none text-white placeholder:text-slate-600" />
-          </div>
-          <button className="w-full md:w-auto bg-amber-500 hover:bg-amber-600 text-black px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-[1.02] active:scale-95">
-            Search
-          </button>
-        </div>
       </section>
 
       {/* Categories Grid */}
@@ -107,10 +98,13 @@ const HomePage = () => {
         <h2 className="text-3xl font-bold text-white mb-10 border-l-4 border-amber-500 pl-4">Browse Categories</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {categories.map((cat) => (
-            <div key={cat.name} className="bg-slate-900/40 border border-slate-800 p-8 rounded-[2rem] text-center hover:border-amber-500/50 hover:bg-slate-800/50 transition-all group cursor-pointer">
+            <div 
+              key={cat.name} 
+              onClick={() => navigate(`/browse?category=${cat.id}`)}
+              className="bg-slate-900/40 border border-slate-800 p-8 rounded-[2rem] text-center hover:border-amber-500/50 hover:bg-slate-800/50 transition-all group cursor-pointer"
+            >
               <div className="text-5xl mb-4 group-hover:scale-125 transition-transform duration-300">{cat.icon}</div>
               <h3 className="font-bold text-slate-200 group-hover:text-amber-500 transition-colors">{cat.name}</h3>
-              <p className="text-xs text-slate-500 mt-2 font-medium">{cat.count} Ads</p>
             </div>
           ))}
         </div>

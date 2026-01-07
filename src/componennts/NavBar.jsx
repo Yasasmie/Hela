@@ -17,10 +17,9 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           
-          {/* Logo Section */}
-          <Link to="/" className="flex items-center">
+          {/* Logo Section - Now navigates to Admin Login */}
+          <Link to="/admin" className="flex items-center">
             <div className="flex-shrink-0 flex items-center gap-3 group cursor-pointer">
-              {/* Image Logo from Public Folder */}
               <div className="group-hover:scale-105 transition-transform duration-200">
                 <img 
                   src="/හෙළ.png" 
@@ -29,15 +28,11 @@ const Navbar = () => {
                 />
               </div>
               
-              {/* Text Logo */}
-              {/*<div className="flex items-baseline">
-                <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-                  හෙළ
-                </span>
-                <span className="text-lg md:text-xl text-white ml-2  font-bold tracking-tight">
-                  Advertising
-                </span>
-              </div>*/}
+              {/* Optional: Add a small indicator for admin or keep it "secret" by leaving it as is */}
+              <div className="flex flex-col leading-none">
+                <span className="text-2xl font-bold text-white font-sinhala">හෙළ</span>
+                <span className="text-[10px] text-amber-500 font-bold tracking-widest uppercase">Admin</span>
+              </div>
             </div>
           </Link>
 
