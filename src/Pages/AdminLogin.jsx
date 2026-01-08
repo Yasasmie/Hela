@@ -16,11 +16,10 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-// In handleSubmit, change this line:
-    const res = await axios.post('/api/admin/login', {  // Relative /api/ works on Vercel + local
-      username,
-      password,
-    });
+      const res = await axios.post('http://localhost:5000/api/admin/login', {
+        username,
+        password,
+      });
 
       if (res.data.success) {
         localStorage.setItem('isAdmin', 'true');
