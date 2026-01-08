@@ -28,11 +28,7 @@ const Navbar = () => {
                 />
               </div>
               
-              {/* Optional: Add a small indicator for admin or keep it "secret" by leaving it as is */}
-              <div className="flex flex-col leading-none">
-                <span className="text-2xl font-bold text-white font-sinhala">හෙළ</span>
-                <span className="text-[10px] text-amber-500 font-bold tracking-widest uppercase">Admin</span>
-              </div>
+              
             </div>
           </Link>
 
@@ -110,4 +106,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar;  
