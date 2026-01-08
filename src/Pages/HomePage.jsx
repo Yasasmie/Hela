@@ -4,7 +4,7 @@ import Navbar from '../componennts/NavBar';
 import Footer from '../componennts/Footer'; 
 import { 
   Zap, Star, CheckCircle2, Rocket, Crown, 
-  Instagram, Youtube, Users, Loader2, ShieldCheck, TrendingUp 
+  Instagram, Youtube, Users, ShieldCheck, TrendingUp 
 } from 'lucide-react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,7 +13,23 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 
-// --- HARDCODED PACKAGES ---
+// Custom TikTok Icon Component for precision
+const TikTokIcon = ({ size = 20, className = "" }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
+
 const STATIC_PACKAGES = [
   {
     id: 1,
@@ -50,9 +66,7 @@ const STATIC_PACKAGES = [
     name: "Basic Package",
     price: "5,000",
     features: ["1 Video", "1 Post", "Boost: 25k+ Views"]
-  },
-  
-  
+  }
 ];
 
 const iconForName = (name) => {
@@ -67,7 +81,6 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   
-  // No longer loading from API, using static data directly
   const packages = STATIC_PACKAGES;
 
   const categories = [
@@ -81,8 +94,7 @@ const HomePage = () => {
 
   const influencers = [
     { id: 1, name: "Yasas Basuru", category: "Owner", followers: "5K+", image: "/yasas.jpeg", platform: "TikTok" },
-    /*{ id: 2, name: "Iththawa", category: "Blogger", followers: "11K+", image: "/iththawa.jpeg", platform: "YouTube" },*/
-    { id: 3, name: "Mr. Vidu", category: "Rapper", followers: "11K+", image: "/vidu.jpeg", platform: "TikTok" },
+    { id: 3, name: "Mr. Vidu", category: "Rapper", followers: "228K+", image: "/vidu.jpeg", platform: "TikTok" },
   ];
 
   const handleWhatsApp = (pkg) => {
@@ -134,7 +146,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* DIGITAL MARKETING PACKAGES */}
+      {/* Digital Marketing Packages */}
       <section className="py-24 px-4 relative">
         <div className="max-w-7xl mx-auto text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Digital Marketing Packages</h2>
@@ -247,7 +259,15 @@ const HomePage = () => {
                         <Users size={14} className="text-amber-500" />
                         <span className="text-sm font-medium">{person.followers} Reach</span>
                       </div>
-                      {person.platform === 'YouTube' ? <Youtube size={20} className="text-red-500" /> : <Instagram size={20} className="text-pink-500" />}
+                      
+                      {/* Platform Icon Logic */}
+                      {person.platform === 'YouTube' ? (
+                        <Youtube size={20} className="text-red-500" />
+                      ) : person.platform === 'TikTok' ? (
+                        <TikTokIcon size={20} className="text-white" />
+                      ) : (
+                        <Instagram size={20} className="text-pink-500" />
+                      )}
                     </div>
                   </div>
                 </div>
