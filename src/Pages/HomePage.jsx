@@ -44,6 +44,7 @@ const HomePage = () => {
   const influencers = [
     { id: 1, name: "Yasas Basuru", category: "Owner", followers: "5K+", image: "/yasas.jpeg", platform: "TikTok" },
     { id: 2, name: "Iththawa", category: "Blogger", followers: "11K+", image: "/iththawa.jpeg", platform: "YouTube" },
+    { id: 3, name: "Mr. Vidu", category: "Rapper", followers: "11K+", image: "/vidu.jpeg", platform: "TikTok" },
   ];
 
   useEffect(() => {
