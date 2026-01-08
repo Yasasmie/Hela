@@ -16,11 +16,10 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-// CHANGE THIS LINE ONLY in handleSubmit:
-const res = await axios.post('/admin/login', {  // Relative path works everywhere
-  username,
-  password,
-});
+      const res = await axios.post('http://localhost:5000/api/admin/login', {
+        username,
+        password,
+      });
 
       if (res.data.success) {
         localStorage.setItem('isAdmin', 'true');
