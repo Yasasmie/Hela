@@ -17,8 +17,8 @@ const Footer = () => {
           </h2>
           
           <p className="text-slate-400 mb-10 max-w-xl mx-auto text-lg leading-relaxed">
-            Join the <span className="text-amber-500 font-bold font-sinhala">හෙළ</span> 
-            <span className="text-amber-500 font-bold italic ml-1">Advertising</span> community today and turn your items into cash.
+            Join the <span className="text-white font-bold font-sinhala">හෙළ</span> 
+            <span className="text-whitefont-bold  ml-1">Advertising</span> community today and turn your items into cash.
           </p>
           
           {/* 3. Add the onClick handler */}
