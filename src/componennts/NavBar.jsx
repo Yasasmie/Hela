@@ -18,7 +18,7 @@ const Navbar = () => {
         <div className="flex justify-between h-20">
           
           {/* Logo Section - Now navigates to Admin Login */}
-          {/*<Link to="/admin" className="flex items-center">
+          {<Link to="/admin" className="flex items-center">
             <div className="flex-shrink-0 flex items-center gap-3 group cursor-pointer">
               <div className="group-hover:scale-105 transition-transform duration-200">
                 <img 
@@ -30,7 +30,7 @@ const Navbar = () => {
               
               
             </div>
-          </Link>*/}
+          </Link>}
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-10">
